@@ -1,0 +1,20 @@
+package com.planit_square.holiday_service.adapter.persistence;
+
+import com.planit_square.holiday_service.application.outbound.HolidayRepository;
+import com.planit_square.holiday_service.domain.aggregate.Holiday;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Component
+public class HolidayPersistenceAdapter implements HolidayRepository {
+
+    private final HolidayJpaRepository holidayJpaRepository;
+
+    @Override
+    public void saveAll(List<Holiday> holidays) {
+        holidayJpaRepository.saveAll(holidays);
+    }
+}
