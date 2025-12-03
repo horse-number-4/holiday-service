@@ -1,14 +1,11 @@
 package com.planit_square.holiday_service.domain.aggregate;
 
 import com.planit_square.holiday_service.DomainFixture;
-import com.planit_square.holiday_service.domain.aggregate.command.RegisterCountryCommand;
 import com.planit_square.holiday_service.domain.aggregate.command.RegisterHolidayCommand;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class HolidayTest {
 

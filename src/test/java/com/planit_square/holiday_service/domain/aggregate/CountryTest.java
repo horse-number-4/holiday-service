@@ -5,7 +5,6 @@ import com.planit_square.holiday_service.domain.aggregate.command.RegisterCountr
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class CountryTest {
 
