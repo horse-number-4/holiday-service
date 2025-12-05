@@ -15,11 +15,6 @@ public class HolidayPersistenceAdapter implements HolidayRepository {
     private final HolidayJdbcRepository holidayJdbcRepository;
 
     @Override
-    public void saveAll(List<Holiday> holidays) {
-        holidayJpaRepository.saveAll(holidays);
-    }
-
-    @Override
     public List<Holiday> findByYearAndCode(int year, String code) {
         return holidayJpaRepository.findByYearAndCode(year, code);
     }
@@ -27,6 +22,11 @@ public class HolidayPersistenceAdapter implements HolidayRepository {
     @Override
     public void bulkInsert(List<Holiday> holidays) {
         holidayJdbcRepository.bulkInsert(holidays);
+    }
+
+    @Override
+    public void save(Holiday newHoliday) {
+        holidayJpaRepository.save(newHoliday);
     }
 
     @Override

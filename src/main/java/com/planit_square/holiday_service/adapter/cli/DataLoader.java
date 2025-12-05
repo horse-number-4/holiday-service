@@ -15,7 +15,6 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        log.info("### 초기 데이터 로드");
         holidayLoader.initialize();
     }
 }

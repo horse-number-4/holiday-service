@@ -9,8 +9,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,6 +25,10 @@ public class HolidayLoader {
 
     public void initialize() {
 
+        Instant start = Instant.now();
+
+        log.info("### 초기화 시작 ###");
+
         List<RegisterCountryCommand> countryCommands = holidayKeeper.findCountries();
         countryCommandUseCase.initialize(countryCommands);
 
@@ -37,5 +41,16 @@ public class HolidayLoader {
         }
 
         holidayCommandUseCase.initialize(allHolidayCommands);
+
+        Instant end = Instant.now();
+        Duration duration = Duration.between(start, end);
+
+        log.info("### 초기화 종료 ###");
+        log.info("### 소요 시간: {}분 {}초 (총 {}개 공휴일)",
+                duration.toMinutes(),
+                duration.toSecondsPart(),
+                allHolidayCommands.size()
+        );
+
     }
 }

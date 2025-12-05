@@ -48,8 +48,16 @@ public class NagerHolidayKeeper implements HolidayKeeper {
         return holidayCommands;
     }
 
+    @Override
+    public List<RegisterHolidayCommand> findHolidays(int year, String code) {
+        List<NagerHolidayResponseDTO> holidayResponses = nagerFeignClient.findHolidays(year, code);
+        return holidayResponses.stream()
+                .map(NagerHolidayResponseDTO::toCommand)
+                .toList();
+    }
+
     private int getStartYear() {
-        return LocalDateTime.now().minusYears(5).getYear();
+        return LocalDateTime.now().minusYears(2).getYear();
     }
 
     private int getEndedYear() {

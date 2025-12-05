@@ -14,7 +14,7 @@ public class HolidayJdbcRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private static final int BATCH_SIZE = 1000;
+    private static final int BATCH_SIZE = 2000;
 
     public void bulkInsert(List<Holiday> holidays) {
 
@@ -27,7 +27,6 @@ public class HolidayJdbcRepository {
             VALUES (:code, :holidayYear, :holidayDate, :name, :localName)
             """;
 
-        // chunking 처리
         for (int i = 0; i < holidays.size(); i += BATCH_SIZE) {
             List<Holiday> chunk = holidays.subList(i, Math.min(i + BATCH_SIZE, holidays.size()));
 

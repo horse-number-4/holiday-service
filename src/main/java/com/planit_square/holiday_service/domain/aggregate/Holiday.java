@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -43,5 +44,13 @@ public class Holiday {
         holiday.name = new HolidayName(command.name(), command.localName());
 
         return holiday;
+    }
+
+    public boolean isDifferent(RegisterHolidayCommand holidayCommand) {
+        return !this.name.name().equals(holidayCommand.name()) || !this.name.localName().equals(holidayCommand.localName());
+    }
+
+    public void update(RegisterHolidayCommand holidayCommand) {
+        this.name = new HolidayName(holidayCommand.name(), holidayCommand.localName());
     }
 }

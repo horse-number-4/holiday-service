@@ -10,4 +10,6 @@ public interface HolidayKeeper {
     List<RegisterCountryCommand> findCountries();
 
     List<RegisterHolidayCommand> findHolidays(String code);
+
+    List<RegisterHolidayCommand> findHolidays(int year, String code);
 }
