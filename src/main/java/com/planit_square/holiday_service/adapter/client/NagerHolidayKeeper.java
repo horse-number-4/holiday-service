@@ -57,7 +57,7 @@ public class NagerHolidayKeeper implements HolidayKeeper {
     }
 
     private int getStartYear() {
-        return LocalDateTime.now().minusYears(2).getYear();
+        return LocalDateTime.now().minusYears(5).getYear();
     }
 
     private int getEndedYear() {
