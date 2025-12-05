@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @RequiredArgsConstructor
 @Component
@@ -22,5 +23,10 @@ public class CountryPersistenceAdapter implements CountryRepository {
     @Override
     public void saveAll(List<Country> countries) {
         countryJpaRepository.saveAll(countries);
+    }
+
+    @Override
+    public List<Country> findAllByCodeIn(Set<String> codes) {
+        return countryJpaRepository.findAllByCodeIn(codes);
     }
 }

@@ -18,7 +18,7 @@ public class CountryCommandService implements CountryCommandUseCase {
     private final CountryRepository countryRepository;
 
     @Override
-    public void register(List<RegisterCountryCommand> commands) {
+    public void initialize(List<RegisterCountryCommand> commands) {
 
         List<Country> countries = commands.stream()
                 .map(Country::register)

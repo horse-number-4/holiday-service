@@ -17,6 +17,6 @@ public record NagerHolidayResponseDTO(
         List<String> types
 ) {
     public RegisterHolidayCommand toCommand() {
-        return new RegisterHolidayCommand(LocalDate.parse(date).getYear(), LocalDate.parse(date), name, localName);
+        return new RegisterHolidayCommand(countryCode, LocalDate.parse(date).getYear(), LocalDate.parse(date), name, localName);
     }
 }

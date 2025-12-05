@@ -31,20 +31,28 @@ public class NagerHolidayKeeper implements HolidayKeeper {
     @Override
     public List<RegisterHolidayCommand> findHolidays(String code) {
 
+        int startedYear = getStartYear();
+        int endedYear = getEndedYear();
+
         List<RegisterHolidayCommand> holidayCommands = new ArrayList<>();
 
-        int startedYear = LocalDateTime.now().minusYears(5).getYear();
-        int endedYear = LocalDateTime.now().getYear();
-
         for (int year = startedYear; year <= endedYear; year++) {
-            List<NagerHolidayResponseDTO> holidayResponses = nagerFeignClient.findHolidays(year, code);
-            List<RegisterHolidayCommand> commands = holidayResponses.stream()
-                    .map(NagerHolidayResponseDTO::toCommand)
-                    .toList();
 
-            holidayCommands.addAll(commands);
+            List<NagerHolidayResponseDTO> holidayResponses = nagerFeignClient.findHolidays(year, code);
+
+            for (NagerHolidayResponseDTO response : holidayResponses) {
+                holidayCommands.add(response.toCommand());
+            }
         }
 
         return holidayCommands;
+    }
+
+    private int getStartYear() {
+        return LocalDateTime.now().minusYears(5).getYear();
+    }
+
+    private int getEndedYear() {
+        return LocalDateTime.now().getYear();
     }
 }

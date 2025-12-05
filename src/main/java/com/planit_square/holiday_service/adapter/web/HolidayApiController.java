@@ -14,8 +14,8 @@ public class HolidayApiController {
 
     private final HolidayCommandUseCase holidayCommandUseCase;
 
-    @DeleteMapping("/{code}/{year}")
-    public void deleteHoliday(@PathVariable String code, @PathVariable int year) {
-        holidayCommandUseCase.delete(code, year);
+    @DeleteMapping("/{year}/{code}")
+    public void deleteHoliday(@PathVariable int year, @PathVariable String code) {
+        holidayCommandUseCase.delete(year, code);
     }
 }

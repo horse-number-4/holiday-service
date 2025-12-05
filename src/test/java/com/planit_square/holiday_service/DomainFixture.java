@@ -12,6 +12,6 @@ public class DomainFixture {
     }
 
     public static RegisterHolidayCommand createRegisterHolidayCommand() {
-        return new RegisterHolidayCommand(2025, LocalDate.of(2025, 12, 25), "Christmas", "크리스마스");
+        return new RegisterHolidayCommand("KR", 2025, LocalDate.of(2025, 12, 25), "Christmas", "크리스마스");
     }
 }

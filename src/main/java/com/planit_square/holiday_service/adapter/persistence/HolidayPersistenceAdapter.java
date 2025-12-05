@@ -20,8 +20,8 @@ public class HolidayPersistenceAdapter implements HolidayRepository {
     }
 
     @Override
-    public List<Holiday> findByCodeAndYear(String code, int year) {
-        return holidayJpaRepository.findByCodeAndYear(code, year);
+    public List<Holiday> findByYearAndCode(int year, String code) {
+        return holidayJpaRepository.findByYearAndCode(year, code);
     }
 
     @Override

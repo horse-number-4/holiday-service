@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface HolidayJpaRepository extends JpaRepository<Holiday, Long> {
 
-    @Query("SELECT h FROM Holiday h WHERE h.country.code = :code AND h.year = :year")
-    List<Holiday> findByCodeAndYear(String code, int year);
+    @Query("SELECT h FROM Holiday h WHERE h.year = :year AND h.country.code = :code")
+    List<Holiday> findByYearAndCode(int year, String code);
 }
