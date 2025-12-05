@@ -25,8 +25,6 @@ public class HolidayLoader {
 
     public void initialize() {
 
-        long startedAt = System.currentTimeMillis();
-
         List<RegisterCountryCommand> countryCommands = holidayKeeper.findCountries();
         countryCommandUseCase.initialize(countryCommands);
 
@@ -39,12 +37,5 @@ public class HolidayLoader {
         }
 
         holidayCommandUseCase.initialize(allHolidayCommands);
-        long endedAt = System.currentTimeMillis();
-
-        long durationMillis = endedAt - startedAt;
-        long durationSeconds = durationMillis / 1000;
-        long durationMinutes = durationSeconds / 60;
-
-        log.info("### 소요 시간: {}분 {}초", durationMinutes, durationSeconds % 60);
     }
 }
