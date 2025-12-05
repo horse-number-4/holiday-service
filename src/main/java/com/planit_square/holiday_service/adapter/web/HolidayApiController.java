@@ -1,8 +1,11 @@
 package com.planit_square.holiday_service.adapter.web;
 
 import com.planit_square.holiday_service.application.inbound.HolidayCommandUseCase;
+import com.planit_square.holiday_service.application.inbound.HolidayQueryUseCase;
 import com.planit_square.holiday_service.domain.aggregate.command.RefreshHolidayCommand;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
@@ -10,8 +13,13 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/holidays")
 public class HolidayApiController {
 
+    private final HolidayQueryUseCase holidayQueryUseCase;
     private final HolidayCommandUseCase holidayCommandUseCase;
 
+    @GetMapping
+    public Page<HolidayResponse> findHolidays(HolidaySearchCondition condition, Pageable pageable) {
+        return holidayQueryUseCase.findHolidays(condition, pageable);
+    }
     @PostMapping
     public void refresh(@RequestBody RefreshHolidayRequest request) {
         RefreshHolidayCommand command = request.toCommand();

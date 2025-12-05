@@ -1,8 +1,12 @@
 package com.planit_square.holiday_service.adapter.persistence;
 
+import com.planit_square.holiday_service.adapter.web.HolidayResponse;
+import com.planit_square.holiday_service.adapter.web.HolidaySearchCondition;
 import com.planit_square.holiday_service.application.outbound.HolidayRepository;
 import com.planit_square.holiday_service.domain.aggregate.Holiday;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -13,6 +17,7 @@ public class HolidayPersistenceAdapter implements HolidayRepository {
 
     private final HolidayJpaRepository holidayJpaRepository;
     private final HolidayJdbcRepository holidayJdbcRepository;
+    private final HolidayQueryJpaRepository holidayQueryJpaRepository;
 
     @Override
     public List<Holiday> findByYearAndCode(int year, String code) {
@@ -32,5 +37,10 @@ public class HolidayPersistenceAdapter implements HolidayRepository {
     @Override
     public void deleteAll(List<Holiday> holidays) {
         holidayJpaRepository.deleteAll(holidays);
+    }
+
+    @Override
+    public Page<HolidayResponse> findHolidays(HolidaySearchCondition condition, Pageable pageable) {
+        return holidayQueryJpaRepository.findHolidays(condition, pageable);
     }
 }
