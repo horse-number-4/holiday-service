@@ -8,9 +8,9 @@ import java.util.Set;
 
 public interface CountryRepository {
 
-    Optional<Country> findByCode(String code);
-
-    void saveAll(List<Country> countries);
+    void bulkInsert(List<Country> countries);
 
     List<Country> findAllByCodeIn(Set<String> codes);
+
+    Optional<Country> findByCode(String code);
 }

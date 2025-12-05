@@ -24,6 +24,6 @@ public class CountryCommandService implements CountryCommandUseCase {
                 .map(Country::register)
                 .toList();
 
-        countryRepository.saveAll(countries);
+        countryRepository.bulkInsert(countries);
     }
 }

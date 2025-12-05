@@ -14,19 +14,20 @@ import java.util.Set;
 public class CountryPersistenceAdapter implements CountryRepository {
 
     private final CountryJpaRepository countryJpaRepository;
+    private final CountryJdbcRepository countryJdbcRepository;
 
     @Override
-    public Optional<Country> findByCode(String code) {
-        return countryJpaRepository.findByCode(code);
-    }
-
-    @Override
-    public void saveAll(List<Country> countries) {
-        countryJpaRepository.saveAll(countries);
+    public void bulkInsert(List<Country> countries) {
+        countryJdbcRepository.bulkInsert(countries);
     }
 
     @Override
     public List<Country> findAllByCodeIn(Set<String> codes) {
         return countryJpaRepository.findAllByCodeIn(codes);
+    }
+
+    @Override
+    public Optional<Country> findByCode(String code) {
+        return countryJpaRepository.findByCode(code);
     }
 }
