@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -27,12 +29,22 @@ public class NagerHolidayKeeper implements HolidayKeeper {
     }
 
     @Override
-    public List<RegisterHolidayCommand> findHolidays(int year, String code) {
+    public List<RegisterHolidayCommand> findHolidays(String code) {
 
-        // TODO: Exception 처리
-        List<NagerHolidayResponseDTO> holidayResponses = nagerFeignClient.findHolidays(year, code);
-        return holidayResponses.stream()
-                .map(nagerHolidayResponseDTO -> nagerHolidayResponseDTO.toCommand(year))
-                .toList();
+        List<RegisterHolidayCommand> holidayCommands = new ArrayList<>();
+
+        int startedYear = LocalDateTime.now().minusYears(5).getYear();
+        int endedYear = LocalDateTime.now().getYear();
+
+        for (int year = startedYear; year <= endedYear; year++) {
+            List<NagerHolidayResponseDTO> holidayResponses = nagerFeignClient.findHolidays(year, code);
+            List<RegisterHolidayCommand> commands = holidayResponses.stream()
+                    .map(NagerHolidayResponseDTO::toCommand)
+                    .toList();
+
+            holidayCommands.addAll(commands);
+        }
+
+        return holidayCommands;
     }
 }

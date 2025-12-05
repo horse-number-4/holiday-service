@@ -7,4 +7,6 @@ import java.util.List;
 public interface HolidayRepository {
 
     void saveAll(List<Holiday> holidays);
+
+    void bulkInsert(List<Holiday> holidays);
 }

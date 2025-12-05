@@ -30,6 +30,6 @@ public class HolidayCommandService implements HolidayCommandUseCase {
                 .map(command -> Holiday.register(country, command))
                 .toList();
 
-        holidayRepository.saveAll(holidays);
+        holidayRepository.bulkInsert(holidays);
     }
 }

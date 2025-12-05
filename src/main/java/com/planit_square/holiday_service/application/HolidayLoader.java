@@ -9,12 +9,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class HolidayInitializer {
+public class HolidayLoader {
 
     private final HolidayKeeper holidayKeeper;
     private final CountryCommandUseCase countryCommandUseCase;
@@ -22,12 +23,12 @@ public class HolidayInitializer {
 
     public void initialize() {
 
-        // TODO: 고민 필요
+        // TODO: 고민 필요 -> 코드로 조회 시
         List<RegisterCountryCommand> countryCommands = holidayKeeper.findCountries();
         countryCommandUseCase.register(countryCommands);
 
         for (RegisterCountryCommand countryCommand : countryCommands) {
-            List<RegisterHolidayCommand> holidayCommands = holidayKeeper.findHolidays(2025, countryCommand.code());
+            List<RegisterHolidayCommand> holidayCommands = holidayKeeper.findHolidays(countryCommand.code());
             holidayCommandUseCase.register(countryCommand.code(), holidayCommands);
         }
     }

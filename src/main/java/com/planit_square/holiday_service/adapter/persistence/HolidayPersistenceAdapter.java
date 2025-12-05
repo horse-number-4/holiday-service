@@ -12,9 +12,15 @@ import java.util.List;
 public class HolidayPersistenceAdapter implements HolidayRepository {
 
     private final HolidayJpaRepository holidayJpaRepository;
+    private final HolidayJdbcRepository holidayJdbcRepository;
 
     @Override
     public void saveAll(List<Holiday> holidays) {
         holidayJpaRepository.saveAll(holidays);
+    }
+
+    @Override
+    public void bulkInsert(List<Holiday> holidays) {
+        holidayJdbcRepository.bulkInsert(holidays);
     }
 }
