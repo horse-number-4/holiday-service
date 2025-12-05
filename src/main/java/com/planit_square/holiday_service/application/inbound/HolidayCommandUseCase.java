@@ -7,4 +7,6 @@ import java.util.List;
 public interface HolidayCommandUseCase {
 
     void register(String code,List<RegisterHolidayCommand> commands);
+
+    void delete(String code, int year);
 }

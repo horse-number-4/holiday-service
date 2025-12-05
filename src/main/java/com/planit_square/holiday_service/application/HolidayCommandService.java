@@ -23,6 +23,7 @@ public class HolidayCommandService implements HolidayCommandUseCase {
     @Override
     public void register(String code, List<RegisterHolidayCommand> commands) {
 
+        // TODO: 고민 필요
         Country country = countryRepository.findByCode(code)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 국가입니다."));
 
@@ -31,5 +32,11 @@ public class HolidayCommandService implements HolidayCommandUseCase {
                 .toList();
 
         holidayRepository.bulkInsert(holidays);
+    }
+
+    @Override
+    public void delete(String code, int year) {
+        List<Holiday> holidays = holidayRepository.findByCodeAndYear(code, year);
+        holidayRepository.deleteAll(holidays);
     }
 }

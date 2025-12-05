@@ -8,5 +8,9 @@ public interface HolidayRepository {
 
     void saveAll(List<Holiday> holidays);
 
+    List<Holiday> findByCodeAndYear(String code, int year);
+
     void bulkInsert(List<Holiday> holidays);
+
+    void deleteAll(List<Holiday> holidays);
 }
