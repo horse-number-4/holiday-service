@@ -35,8 +35,8 @@ public class HolidayJdbcRepository {
                             "code", holiday.getCountry().getCode(),
                             "holidayYear", holiday.getYear(),
                             "holidayDate", holiday.getDate(),
-                            "name", holiday.getName().name(),
-                            "localName", holiday.getName().localName()
+                            "name", holiday.getName().getName(),
+                            "localName", holiday.getName().getLocalName()
                     ))
                     .toArray(Map[]::new);
 

@@ -47,7 +47,7 @@ public class Holiday {
     }
 
     public boolean isDifferent(RegisterHolidayCommand holidayCommand) {
-        return !this.name.name().equals(holidayCommand.name()) || !this.name.localName().equals(holidayCommand.localName());
+        return !this.name.getName().equals(holidayCommand.name()) || !this.name.getLocalName().equals(holidayCommand.localName());
     }
 
     public void update(RegisterHolidayCommand holidayCommand) {
