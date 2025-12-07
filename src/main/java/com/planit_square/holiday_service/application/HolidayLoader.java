@@ -13,9 +13,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -85,6 +83,7 @@ public class HolidayLoader {
     private void initializeHolidays(List<RegisterCountryCommand> countryCommands) {
 
         List<RegisterHolidayCommand> allHolidayCommands = Collections.synchronizedList(new ArrayList<>());
+        Set<String> failCodes = Collections.synchronizedSet(new HashSet<>());
 
         AtomicInteger successCount = new AtomicInteger();
         AtomicInteger failCount = new AtomicInteger();
@@ -103,6 +102,9 @@ public class HolidayLoader {
                     } catch (Exception e) {
                         failCount.incrementAndGet();
                         log.info("### 국가코드: {} - 실패 수: {} / 전체 국가 수: {}", countryCommand.code(), failCount.get(), countryCommands.size());
+
+                        // 실패 국가 별도 저장 or 테이블 컬럼에 추가 후 처리
+                        failCodes.add(countryCommand.code());
                     }
                 }, executor);
 
@@ -111,6 +113,7 @@ public class HolidayLoader {
 
             CompletableFuture.allOf(futures.toArray(new CompletableFuture[0])).join();
 
+            countryCommandUseCase.updateIsHolidayLoaded(failCodes);
             if (!allHolidayCommands.isEmpty()) {
                 holidayCommandUseCase.initialize(allHolidayCommands);
             }

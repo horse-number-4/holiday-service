@@ -47,4 +47,12 @@ public class CountryCommandService implements CountryCommandUseCase {
             countryRepository.bulkInsert(newCountries);
         }
     }
+
+    @Override
+    public void updateIsHolidayLoaded(Set<String> codes) {
+        List<Country> countries = countryRepository.findAllByCodeIn(codes);
+        for (Country country : countries) {
+            country.updateLoadFail();
+        }
+    }
 }

@@ -17,6 +17,7 @@ public class Country {
     @Id
     private String code;
     private String name;
+    private boolean isHolidayLoaded;
 
     public static Country register(RegisterCountryCommand command) {
 
@@ -24,7 +25,12 @@ public class Country {
 
         country.code = command.code();
         country.name = command.name();
+        country.isHolidayLoaded = true;
 
         return country;
+    }
+
+    public void updateLoadFail() {
+        this.isHolidayLoaded = false;
     }
 }
