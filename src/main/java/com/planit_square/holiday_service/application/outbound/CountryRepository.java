@@ -13,4 +13,6 @@ public interface CountryRepository {
     List<Country> findAllByCodeIn(Set<String> codes);
 
     Optional<Country> findByCode(String code);
+
+    List<Country> findAll();
 }

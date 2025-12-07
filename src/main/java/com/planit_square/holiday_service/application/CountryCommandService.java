@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -25,5 +27,24 @@ public class CountryCommandService implements CountryCommandUseCase {
                 .toList();
 
         countryRepository.bulkInsert(countries);
+    }
+
+    @Override
+    public void refresh(List<RegisterCountryCommand> commands) {
+
+        List<Country> countries = countryRepository.findAll();
+
+        Set<String> codes = countries.stream()
+                .map(Country::getCode)
+                .collect(Collectors.toSet());
+
+        List<Country> newCountries = commands.stream()
+                .filter(command -> !codes.contains(command.code()))
+                .map(Country::register)
+                .toList();
+
+        if (!newCountries.isEmpty()) {
+            countryRepository.bulkInsert(newCountries);
+        }
     }
 }

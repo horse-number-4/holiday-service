@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,10 +57,10 @@ public class NagerHolidayKeeper implements HolidayKeeper {
     }
 
     private int getStartYear() {
-        return LocalDateTime.now().minusYears(5).getYear();
+        return LocalDate.now().minusYears(5).getYear();
     }
 
     private int getEndedYear() {
-        return LocalDateTime.now().getYear();
+        return LocalDate.now().getYear();
     }
 }

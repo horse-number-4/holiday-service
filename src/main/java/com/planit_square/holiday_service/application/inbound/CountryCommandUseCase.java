@@ -7,4 +7,6 @@ import java.util.List;
 public interface CountryCommandUseCase {
 
     void initialize(List<RegisterCountryCommand> commands);
+
+    void refresh(List<RegisterCountryCommand> commands);
 }

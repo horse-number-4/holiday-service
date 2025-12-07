@@ -76,13 +76,13 @@ public class HolidayCommandService implements HolidayCommandUseCase {
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 국가입니다."));
 
         List<Holiday> holidays = holidayRepository.findByYearAndCode(command.year(), command.code());
-        Map<LocalDate, Holiday> holidayMap = toHolidayMap(holidays);
+        Map<String , Holiday> holidayMap = toHolidayMap(holidays);
 
         List<RegisterHolidayCommand> holidayCommands = holidayKeeper.findHolidays(command.year(), command.code());
 
         for (RegisterHolidayCommand holidayCommand : holidayCommands) {
 
-            Holiday holiday = holidayMap.get(holidayCommand.date());
+            Holiday holiday = holidayMap.get(getKey(holidayCommand.code(), holidayCommand.date(), holidayCommand.localName()));
 
             if (Objects.nonNull(holiday)) {
                 if (holiday.isDifferent(holidayCommand)) {
@@ -108,8 +108,12 @@ public class HolidayCommandService implements HolidayCommandUseCase {
                 .collect(Collectors.toSet());
     }
 
-    private Map<LocalDate, Holiday> toHolidayMap(List<Holiday> holidays) {
+    private Map<String, Holiday> toHolidayMap(List<Holiday> holidays) {
         return holidays.stream()
-                .collect(Collectors.toMap(Holiday::getDate, Function.identity()));
+                .collect(Collectors.toMap(holiday -> getKey(holiday.getCountry().getCode(), holiday.getDate(), holiday.getName().getLocalName()), Function.identity()));
+    }
+
+    private static String getKey(String code, LocalDate date, String localName) {
+        return code + date + localName;
     }
 }

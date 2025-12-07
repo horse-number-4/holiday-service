@@ -8,4 +8,8 @@ public record RegisterHolidayCommand(
         LocalDate date,
         String name,
         String localName
-) {}
+) {
+    public static RegisterHolidayCommand of(String code, Integer year, LocalDate date, String name, String localName) {
+        return new RegisterHolidayCommand(code, year, date, name, localName);
+    }
+}

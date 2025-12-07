@@ -30,4 +30,9 @@ public class CountryPersistenceAdapter implements CountryRepository {
     public Optional<Country> findByCode(String code) {
         return countryJpaRepository.findByCode(code);
     }
+
+    @Override
+    public List<Country> findAll() {
+        return countryJpaRepository.findAll();
+    }
 }
