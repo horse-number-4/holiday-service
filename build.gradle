@@ -37,6 +37,9 @@ dependencies {
 	annotationProcessor 'jakarta.annotation:jakarta.annotation-api'
 	annotationProcessor 'jakarta.persistence:jakarta.persistence-api'
 
+	// swagger
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.6.0'
+
 	// feign
 	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 

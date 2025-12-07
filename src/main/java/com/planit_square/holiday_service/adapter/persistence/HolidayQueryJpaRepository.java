@@ -2,6 +2,7 @@ package com.planit_square.holiday_service.adapter.persistence;
 
 import com.planit_square.holiday_service.adapter.web.HolidayResponse;
 import com.planit_square.holiday_service.adapter.web.HolidaySearchCondition;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -45,7 +47,8 @@ public class HolidayQueryJpaRepository {
                 .join(holiday.country, country)
                 .where(
                         equalsHolidayYear(condition.year()),
-                        equalsCode(condition.code())
+                        equalsCode(condition.code()),
+                        betweenDate(condition.searchFrom(), condition.searchTo())
                 )
                 .orderBy(holiday.date.desc())
                 .offset(pageable.getOffset())
@@ -53,6 +56,13 @@ public class HolidayQueryJpaRepository {
                 .fetch();
 
         return new PageImpl<>(responses, pageable, totalCount);
+    }
+
+    private BooleanExpression betweenDate(LocalDate from, LocalDate to) {
+        if (Objects.nonNull(from) && Objects.nonNull(to)) {
+            return holiday.date.between(from, to);
+        }
+        return null;
     }
 
     private BooleanExpression equalsHolidayYear(Integer year) {
