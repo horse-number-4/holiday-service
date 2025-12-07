@@ -24,8 +24,8 @@ public class CountryJdbcRepository {
         }
 
         String sql = """
-            INSERT INTO countries (code, name)
-            VALUES (:code, :name)
+            INSERT INTO countries (code, name, is_holiday_loaded)
+            VALUES (:code, :name, :isHolidayLoaded)
             """;
 
         for (int i = 0; i < countries.size(); i += BATCH_SIZE) {
@@ -34,7 +34,8 @@ public class CountryJdbcRepository {
             Map<String, ?>[] batchParams = chunk.stream()
                     .map(country -> Map.of(
                             "code", country.getCode(),
-                            "name", country.getName()
+                            "name", country.getName(),
+                            "isHolidayLoaded", country.isHolidayLoaded()
                     ))
                     .toArray(Map[]::new);
 

@@ -21,6 +21,8 @@ public class QCountry extends EntityPathBase<Country> {
 
     public final StringPath code = createString("code");
 
+    public final BooleanPath isHolidayLoaded = createBoolean("isHolidayLoaded");
+
     public final StringPath name = createString("name");
 
     public QCountry(String variable) {
