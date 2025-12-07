@@ -7,8 +7,10 @@ import lombok.Getter;
 @Getter
 public class HolidayName {
 
-    private final String name;
-    private final String localName;
+    private String name;
+    private String localName;
+
+    protected HolidayName() {}
 
     public HolidayName(String name, String localName) {
         this.name = name;
