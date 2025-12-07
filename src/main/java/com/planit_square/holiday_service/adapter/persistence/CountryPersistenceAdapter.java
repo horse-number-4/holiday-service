@@ -35,4 +35,9 @@ public class CountryPersistenceAdapter implements CountryRepository {
     public List<Country> findAll() {
         return countryJpaRepository.findAll();
     }
+
+    @Override
+    public long count() {
+        return countryJpaRepository.count();
+    }
 }

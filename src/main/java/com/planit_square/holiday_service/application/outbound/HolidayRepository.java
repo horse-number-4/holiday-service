@@ -19,4 +19,6 @@ public interface HolidayRepository {
     void deleteAll(List<Holiday> holidays);
 
     Page<HolidayResponse> findHolidays(HolidaySearchCondition condition, Pageable pageable);
+
+    long count();
 }

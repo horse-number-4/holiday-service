@@ -43,4 +43,9 @@ public class HolidayPersistenceAdapter implements HolidayRepository {
     public Page<HolidayResponse> findHolidays(HolidaySearchCondition condition, Pageable pageable) {
         return holidayQueryJpaRepository.findHolidays(condition, pageable);
     }
+
+    @Override
+    public long count() {
+        return holidayQueryJpaRepository.count();
+    }
 }

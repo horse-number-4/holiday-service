@@ -15,4 +15,6 @@ public interface CountryRepository {
     Optional<Country> findByCode(String code);
 
     List<Country> findAll();
+
+    long count();
 }

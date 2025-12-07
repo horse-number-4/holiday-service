@@ -8,4 +8,6 @@ import org.springframework.data.domain.Pageable;
 public interface HolidayQueryUseCase {
 
     Page<HolidayResponse> findHolidays(HolidaySearchCondition condition, Pageable pageable);
+
+    long count();
 }

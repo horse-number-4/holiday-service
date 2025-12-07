@@ -21,4 +21,9 @@ public class HolidayQueryService implements HolidayQueryUseCase {
     public Page<HolidayResponse> findHolidays(HolidaySearchCondition condition, Pageable pageable) {
         return holidayRepository.findHolidays(condition, pageable);
     }
+
+    @Override
+    public long count() {
+        return holidayRepository.count();
+    }
 }

@@ -1,7 +1,9 @@
 package com.planit_square.holiday_service.application;
 
 import com.planit_square.holiday_service.application.inbound.CountryCommandUseCase;
+import com.planit_square.holiday_service.application.inbound.CountryQueryUseCase;
 import com.planit_square.holiday_service.application.inbound.HolidayCommandUseCase;
+import com.planit_square.holiday_service.application.inbound.HolidayQueryUseCase;
 import com.planit_square.holiday_service.application.outbound.HolidayKeeper;
 import com.planit_square.holiday_service.domain.aggregate.command.RegisterCountryCommand;
 import com.planit_square.holiday_service.domain.aggregate.command.RegisterHolidayCommand;
@@ -25,12 +27,18 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class HolidayLoader {
 
     private final HolidayKeeper holidayKeeper;
+    private final CountryQueryUseCase countryQueryUseCase;
+    private final HolidayQueryUseCase holidayQueryUseCase;
     private final CountryCommandUseCase countryCommandUseCase;
     private final HolidayCommandUseCase holidayCommandUseCase;
 
     private static final int THREAD_POOL = 5;
 
     public void initialize() {
+
+        if (isAlreadyInitialized()) {
+            return;
+        }
 
         Instant start = Instant.now();
         log.info("### 초기화 시작 ###");
@@ -45,6 +53,26 @@ public class HolidayLoader {
         Instant end = Instant.now();
         Duration duration = Duration.between(start, end);
         log.info("### 초기화 완료 - 소요 시간: {}분 {}초", duration.toMinutes(), duration.toSecondsPart());
+    }
+
+    private boolean isAlreadyInitialized() {
+
+        long countryCount = countryQueryUseCase.count();
+
+        if (countryCount < 100) {
+            log.info("### 현재 국가 수: {}", countryCount);
+            return false;
+        }
+
+        long holidayCount = holidayQueryUseCase.count();
+
+        if (holidayCount < 1000) {
+            log.info("### 현재 공휴일 수: {}", holidayCount);
+            return false;
+        }
+
+
+        return true;
     }
 
     private List<RegisterCountryCommand> initializeCountries() {

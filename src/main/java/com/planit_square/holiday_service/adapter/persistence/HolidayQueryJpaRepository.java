@@ -2,7 +2,6 @@ package com.planit_square.holiday_service.adapter.persistence;
 
 import com.planit_square.holiday_service.adapter.web.HolidayResponse;
 import com.planit_square.holiday_service.adapter.web.HolidaySearchCondition;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.planit_square.holiday_service.domain.aggregate.QCountry.country;
 import static com.planit_square.holiday_service.domain.aggregate.QHoliday.holiday;
@@ -71,5 +71,12 @@ public class HolidayQueryJpaRepository {
 
     private BooleanExpression equalsCode(String code) {
         return Objects.nonNull(code) ? holiday.country.code.eq(code) : null;
+    }
+
+    public long count() {
+        return Optional.ofNullable(queryFactory
+                .select(holiday.count())
+                .from(holiday)
+                .fetchOne()).orElse(0L);
     }
 }
