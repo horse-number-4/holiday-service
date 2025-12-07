@@ -14,8 +14,6 @@ public class HolidayJdbcRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    private static final int BATCH_SIZE = 2000;
-
     public void bulkInsert(List<Holiday> holidays) {
 
         if (holidays.isEmpty()) {
@@ -27,20 +25,16 @@ public class HolidayJdbcRepository {
             VALUES (:code, :holidayYear, :holidayDate, :name, :localName)
             """;
 
-        for (int i = 0; i < holidays.size(); i += BATCH_SIZE) {
-            List<Holiday> chunk = holidays.subList(i, Math.min(i + BATCH_SIZE, holidays.size()));
+        Map<String, ?>[] holidayParams = holidays.stream()
+                .map(holiday -> Map.of(
+                        "code", holiday.getCountry().getCode(),
+                        "holidayYear", holiday.getYear(),
+                        "holidayDate", holiday.getDate(),
+                        "name", holiday.getName().getName(),
+                        "localName", holiday.getName().getLocalName()
+                ))
+                .toArray(Map[]::new);
 
-            Map<String, ?>[] batchParams = chunk.stream()
-                    .map(holiday -> Map.of(
-                            "code", holiday.getCountry().getCode(),
-                            "holidayYear", holiday.getYear(),
-                            "holidayDate", holiday.getDate(),
-                            "name", holiday.getName().getName(),
-                            "localName", holiday.getName().getLocalName()
-                    ))
-                    .toArray(Map[]::new);
-
-            namedParameterJdbcTemplate.batchUpdate(sql, batchParams);
-        }
+        namedParameterJdbcTemplate.batchUpdate(sql, holidayParams);
     }
 }
